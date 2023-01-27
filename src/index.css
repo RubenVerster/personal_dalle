@@ -28,7 +28,6 @@
   width: 100vw;
   display: flex;
   margin: 0 auto;
-  align-items: flex-end;
   justify-content: center;
   flex-direction: row;
   background-repeat: no-repeat;
@@ -37,7 +36,7 @@
   padding: 0;
 }
 
-.image-container {
+.container_genrated {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,8 +45,36 @@
   width: 100%;
   background-color: #242424;
   background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+  background-size: cover;
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.container_genrated__img {
+  width: 100%;
+  height: 100%;
+  padding: 3rem;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+}
+
+.container_genrated__img:hover {
+  cursor: copy;
+  padding: 0.15rem;
+}
+
+.container_controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: #242424;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
 }
 
 .form-container {
@@ -56,4 +83,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .App {
+    flex-direction: column;
+  }
 }

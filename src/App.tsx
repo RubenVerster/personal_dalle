@@ -8,7 +8,12 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 import './firebase';
+import { DotLoader, ScaleLoader } from 'react-spinners';
+
 type submitEvent = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
+
+import Bee from './assets/img/bee.jpeg';
+import AiArt from './assets/img/ai_art.jpeg';
 
 function App() {
   const firebaseAuth = getAuth();
@@ -33,7 +38,7 @@ function App() {
   const [authLoading, setAuthLoading] = useState(false);
   const [imgLoading, setImgLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [img, setImg] = useState('');
+  const [img, setImg] = useState(Bee);
 
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -47,12 +52,15 @@ function App() {
 
   const generateImage = async (e: submitEvent) => {
     e.preventDefault();
+    setImg(Bee);
     setImgLoading(true);
     setError(false);
     try {
       const res = await openai.createImage({
         prompt: prompt,
         n: 1,
+        // size: '1024x1024',
+        // size: '512x512',
         size: '256x256',
       });
 
@@ -100,35 +108,49 @@ function App() {
 
   return (
     <div className='App'>
-      <div className='image-container' style={{ backgroundImage: `url(${img})` }}></div>
-      {authLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <div>
-          {auth ? (
-            <div>
-              {imgLoading && <p>Loading...</p>}
-              <form className='form-container' onSubmit={(e) => generateImage(e)}>
-                <textarea rows={7} value={prompt} onChange={(e) => setPrompt(e.target.value)}></textarea>
-                <button onClick={(e) => generateImage(e)}>Generate</button>
+      <div className='container_genrated'>
+        <img className='container_genrated__img' src={img} alt='Generated' />
+        {imgLoading && (
+          <div className='loading-overlay'>
+            <DotLoader size={169} color='#1e50d8' />
+          </div>
+        )}
+      </div>
+      <div className='container_controls' style={{ backgroundImage: `url(${AiArt})` }}>
+        {authLoading ? (
+          <ScaleLoader color='#1e50d8' height={169} margin={7} radius={10} width={42} />
+        ) : (
+          <>
+            {auth ? (
+              <>
+                <form className='form-container' onSubmit={(e) => generateImage(e)}>
+                  <input value={prompt} onChange={(e) => setPrompt(e.target.value)}></input>
+                  <button disabled={imgLoading} onClick={(e) => generateImage(e)}>
+                    Generate
+                  </button>
+                </form>
+                <button disabled={authLoading} onClick={(e) => logOut(e)}>
+                  Log Out
+                </button>
+              </>
+            ) : (
+              <form className='form-container'>
+                <input type='email' placeholder='Email' onChange={(e) => setUserEmail(e.target.value)} />
+                <input
+                  type='password'
+                  placeholder='Password'
+                  onChange={(e) => setUserPassword(e.target.value)}
+                />
+                <button disabled={authLoading} onClick={(e) => login(e)}>
+                  Login
+                </button>
               </form>
-              <button onClick={(e) => logOut(e)}>Log Out</button>
-            </div>
-          ) : (
-            <form className='form-cotainer'>
-              <input type='email' placeholder='Email' onChange={(e) => setUserEmail(e.target.value)} />
-              <input
-                type='password'
-                placeholder='Password'
-                onChange={(e) => setUserPassword(e.target.value)}
-              />
-              <button onClick={(e) => login(e)}>Login</button>
-            </form>
-          )}
+            )}
 
-          {error && <p style={{ color: 'red' }}>Error</p>}
-        </div>
-      )}
+            {error && <p style={{ color: 'red' }}>Error</p>}
+          </>
+        )}
+      </div>
     </div>
   );
 }
