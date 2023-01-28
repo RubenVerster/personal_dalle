@@ -197,6 +197,7 @@ function App() {
                 >
                   Log Out
                 </button>
+                {error && <p className='text_error'>Stop abusing this app</p>}
               </div>
             ) : (
               <form className='form-container'>
@@ -210,12 +211,6 @@ function App() {
                   Login
                 </button>
               </form>
-            )}
-
-            {error && (
-              <p className='text_error' style={{ color: 'red' }}>
-                Somehow you're using this wrong or internet is out bruv
-              </p>
             )}
           </>
         )}
