@@ -10,13 +10,57 @@ import {
 import './firebase';
 import { DotLoader, ScaleLoader } from 'react-spinners';
 
-type submitEvent = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import Bee from './assets/img/bee.jpeg';
+import Bee from './assets/img/bee.png';
 import AiArt from './assets/img/ai_art.jpeg';
+
+import { PixelOptions, submitEvent } from './types';
 
 function App() {
   const firebaseAuth = getAuth();
+
+  const configuration = new Configuration({
+    apiKey: import.meta.env.VITE_Open_AI_key,
+  });
+  const openai = new OpenAIApi(configuration);
+
+  const [prompt, setPrompt] = useState('Bee love sushi');
+  const [authLoading, setAuthLoading] = useState(false);
+  const [imgLoading, setImgLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const [img, setImg] = useState(Bee);
+  const [imgQuality, setImgQuality] = useState(PixelOptions.small);
+
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [auth, setAuth] = useState(false);
+
+  const generateImage = async (e: submitEvent) => {
+    e.preventDefault();
+    setImg(Bee);
+    setImgLoading(true);
+    setError(false);
+    try {
+      const res = await openai.createImage({
+        prompt: prompt,
+        n: 1,
+        size: imgQuality,
+      });
+
+      if (res.status === 200 && res.data.data[0].url) {
+        setImg(res.data.data[0].url);
+      }
+    } catch (error) {
+      setError(true);
+      console.error(error);
+    }
+    setTimeout(() => {
+      setImgLoading(false);
+    }, 2222);
+  };
 
   const checkIfUserLoggedIn = () => {
     setAuthLoading(true);
@@ -33,45 +77,19 @@ function App() {
   useEffect(() => {
     checkIfUserLoggedIn();
   }, []);
-
-  const [prompt, setPrompt] = useState('Bee love sushi');
-  const [authLoading, setAuthLoading] = useState(false);
-  const [imgLoading, setImgLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [img, setImg] = useState(Bee);
-
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-  const [auth, setAuth] = useState(false);
-
-  const configuration = new Configuration({
-    apiKey: import.meta.env.VITE_Open_AI_key,
-  });
-
-  const openai = new OpenAIApi(configuration);
-
-  const generateImage = async (e: submitEvent) => {
-    e.preventDefault();
-    setImg(Bee);
-    setImgLoading(true);
-    setError(false);
+  const copyImageToClipboard = async () => {
+    toast.info('Copying image to clipboard...', {});
     try {
-      const res = await openai.createImage({
-        prompt: prompt,
-        n: 1,
-        // size: '1024x1024',
-        // size: '512x512',
-        size: '256x256',
-      });
-
-      if (res.status === 200 && res.data.data[0].url) {
-        setImg(res.data.data[0].url);
-      }
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'image/png': await fetch(img).then((r) => r.blob()),
+        }),
+      ]);
+      toast.success('Image copied!', {});
     } catch (error) {
-      setError(true);
+      toast.error('Failed to copy!', {});
       console.error(error);
     }
-    setImgLoading(false);
   };
 
   const login = async (e: submitEvent) => {
@@ -108,8 +126,26 @@ function App() {
 
   return (
     <div className='App'>
+      <ToastContainer
+        position='top-left'
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+        theme='dark'
+      />
       <div className='container_genrated'>
-        <img className='container_genrated__img' src={img} alt='Generated' />
+        <img
+          className='container_genrated__img'
+          onClick={() => copyImageToClipboard()}
+          src={img}
+          alt='Generated'
+        />
+
         {imgLoading && (
           <div className='loading-overlay'>
             <DotLoader size={169} color='#1e50d8' />
@@ -122,17 +158,21 @@ function App() {
         ) : (
           <>
             {auth ? (
-              <>
+              <div className='user_controls'>
                 <form className='form-container' onSubmit={(e) => generateImage(e)}>
                   <input value={prompt} onChange={(e) => setPrompt(e.target.value)}></input>
-                  <button disabled={imgLoading} onClick={(e) => generateImage(e)}>
+                  <button className='button_custom' disabled={imgLoading} onClick={(e) => generateImage(e)}>
                     Generate
                   </button>
                 </form>
-                <button disabled={authLoading} onClick={(e) => logOut(e)}>
+                <button
+                  className='button_custom button_logout'
+                  disabled={authLoading}
+                  onClick={(e) => logOut(e)}
+                >
                   Log Out
                 </button>
-              </>
+              </div>
             ) : (
               <form className='form-container'>
                 <input type='email' placeholder='Email' onChange={(e) => setUserEmail(e.target.value)} />
@@ -141,13 +181,17 @@ function App() {
                   placeholder='Password'
                   onChange={(e) => setUserPassword(e.target.value)}
                 />
-                <button disabled={authLoading} onClick={(e) => login(e)}>
+                <button className='button_custom' disabled={authLoading} onClick={(e) => login(e)}>
                   Login
                 </button>
               </form>
             )}
 
-            {error && <p style={{ color: 'red' }}>Error</p>}
+            {!error && (
+              <p className='text_error' style={{ color: 'red' }}>
+                Somehow you're using this wrong or internet is out bruv
+              </p>
+            )}
           </>
         )}
       </div>

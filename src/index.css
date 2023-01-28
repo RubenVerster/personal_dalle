@@ -60,6 +60,7 @@
 }
 
 .container_genrated__img:hover {
+  border-radius: 1rem;
   cursor: copy;
   padding: 0.15rem;
 }
@@ -69,17 +70,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
   width: 100%;
   background-color: #242424;
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   position: relative;
 }
 
 .form-container {
-  width: 100%;
-  padding: 3rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -97,7 +96,69 @@
   align-items: center;
 }
 
-@media (max-width: 600px) {
+input {
+  width: 100%;
+  min-width: 500px;
+  max-width: 70%;
+  height: 3rem;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  border: 1px solid #777;
+  box-shadow: 0 0 0 0.5px #242424;
+}
+.button_custom {
+  height: 3rem;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  border: 1px solid #777;
+  box-shadow: 0 0 0 0.5px #242424;
+  transition: all 0.15s ease-in-out;
+}
+
+.button_logout {
+  position: absolute;
+  bottom: 0rem;
+  left: 1rem;
+  width: 150px;
+}
+
+.button_custom:hover {
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #242424;
+  border: 1px solid #242424;
+  box-shadow: 0 0 0 0.5px #242424;
+}
+
+.user_controls {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.text_error {
+  position: absolute;
+  top: 1rem;
+  font-size: 1.5rem;
+  color: #ff0000;
+  text-shadow: 0 0 2px orangered;
+}
+
+@media (max-width: 746px) {
   .App {
     flex-direction: column;
   }
