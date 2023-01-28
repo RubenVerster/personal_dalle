@@ -116,18 +116,18 @@ input {
   border: none;
   border-radius: 0.5rem;
   padding: 0.5rem;
-  margin-bottom: 1rem;
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
   border: 1px solid #777;
   box-shadow: 0 0 0 0.5px #242424;
   transition: all 0.15s ease-in-out;
+  width: 100%;
 }
 
 .button_logout {
   position: absolute;
-  bottom: 0rem;
+  bottom: 1rem;
   left: 1rem;
   width: 150px;
 }
@@ -150,12 +150,31 @@ input {
   justify-content: center;
 }
 
+.button_medium {
+  margin: 0 1rem;
+}
+
+.container_controls__quality {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 1rem;
+}
+
 .text_error {
   position: absolute;
   top: 1rem;
   font-size: 1.5rem;
   color: #ff0000;
   text-shadow: 0 0 2px orangered;
+}
+
+.active {
+  background-color: #ffffff;
+  color: #242424;
+  border: 1px solid #242424;
+  box-shadow: 0 0 0 0.5px #242424;
 }
 
 @media (max-width: 746px) {

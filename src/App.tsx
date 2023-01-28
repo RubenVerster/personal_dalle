@@ -159,12 +159,37 @@ function App() {
           <>
             {auth ? (
               <div className='user_controls'>
-                <form className='form-container' onSubmit={(e) => generateImage(e)}>
+                <div className='form-container'>
                   <input value={prompt} onChange={(e) => setPrompt(e.target.value)}></input>
+                  <div className='container_controls__quality'>
+                    <button
+                      className={`button_custom ${imgQuality === PixelOptions.small && 'active'}`}
+                      disabled={imgLoading}
+                      onClick={() => setImgQuality(PixelOptions.small)}
+                    >
+                      Small
+                    </button>
+                    <button
+                      className={`button_custom button_medium ${
+                        imgQuality === PixelOptions.medium && 'active'
+                      }`}
+                      disabled={imgLoading}
+                      onClick={() => setImgQuality(PixelOptions.medium)}
+                    >
+                      Medium
+                    </button>
+                    <button
+                      className={`button_custom ${imgQuality === PixelOptions.large && 'active'}`}
+                      disabled={imgLoading}
+                      onClick={() => setImgQuality(PixelOptions.large)}
+                    >
+                      Large
+                    </button>
+                  </div>
                   <button className='button_custom' disabled={imgLoading} onClick={(e) => generateImage(e)}>
                     Generate
                   </button>
-                </form>
+                </div>
                 <button
                   className='button_custom button_logout'
                   disabled={authLoading}
@@ -187,7 +212,7 @@ function App() {
               </form>
             )}
 
-            {!error && (
+            {error && (
               <p className='text_error' style={{ color: 'red' }}>
                 Somehow you're using this wrong or internet is out bruv
               </p>
