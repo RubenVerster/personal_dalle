@@ -14,12 +14,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Bee from './assets/img/bee.png';
-import AiArt from './assets/img/ai_art.jpeg';
+import AiArt from './assets/img/ai_art.png';
 
 import { PixelOptions, submitEvent } from './types';
 
 import { TfiLayoutGrid2, TfiLayoutGrid3, TfiLayoutGrid4 } from 'react-icons/tfi';
-import { RiLogoutBoxLine, RiDownloadFill } from 'react-icons/ri';
+import { RiLogoutBoxLine } from 'react-icons/ri';
 
 function App() {
   const firebaseAuth = getAuth();
