@@ -193,6 +193,7 @@ function App() {
         theme='dark'
       />
       <div className='container_generated'>
+        <div className='spinning_background'></div>
         {!imgLoading && (
           <img
             className='container_generated__img'
