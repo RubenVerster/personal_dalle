@@ -142,7 +142,7 @@ function App() {
 
   const rand = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-  const animate = (star) => {
+  const animate = (star: any) => {
     star.style.setProperty('--star-left', `${rand(-100, 150)}%`);
     star.style.setProperty('--star-top', `${rand(-70, 90)}%`);
 
@@ -153,12 +153,15 @@ function App() {
 
   const stars = document.querySelectorAll('.magic-star');
 
-  for (const star of stars) {
+  stars.forEach((star) => {
     setTimeout(() => {
       animate(star);
 
       setInterval(() => animate(star), 1000);
     }, index++ * (interval / 3));
+  });
+
+  for (const star of stars) {
   }
 
   const logOut = async (e: submitEvent) => {

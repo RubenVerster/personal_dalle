@@ -68,7 +68,7 @@ container_generated__img img {
 .container_generated__img:hover {
   border-radius: 1rem;
   cursor: copy;
-  padding: 0.15rem;
+  padding: 0.7rem;
 }
 
 .container_controls {
