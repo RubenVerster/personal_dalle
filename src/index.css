@@ -323,7 +323,9 @@ body {
   background: linear-gradient(to right, var(--dark-blue), var(--blue), var(--light-blue), var(--dark-blue));
   background-size: 200%;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   white-space: nowrap;
   font-size: 1.5rem;
+  letter-spacing: 0.3rem;
 }
