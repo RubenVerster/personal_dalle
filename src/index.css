@@ -19,8 +19,9 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  padding: 0%;
-  margin: 0%;
+  --dark-blue: rgb(35, 31, 162);
+  --blue: rgb(58, 102, 183);
+  --light-blue: rgb(143, 199, 244);
 }
 
 .App {
@@ -36,7 +37,7 @@
   padding: 0;
 }
 
-.container_genrated {
+.container_generated {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,15 +52,19 @@
   overflow: hidden;
 }
 
-.container_genrated__img {
+.container_generated__img {
   width: 100%;
   height: 100%;
   padding: 3rem;
   overflow: hidden;
   transition: all 0.2s ease-in-out;
 }
+container_generated__img img {
+  width: 100%;
+  height: 100%;
+}
 
-.container_genrated__img:hover {
+.container_generated__img:hover {
   border-radius: 1rem;
   cursor: copy;
   padding: 0.15rem;
@@ -113,10 +118,9 @@ input {
   box-shadow: 0 0 0 0.5px #242424;
 }
 .button_custom {
-  height: 3rem;
+  height: 2rem;
   border: none;
   border-radius: 0.5rem;
-  padding: 0.5rem;
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -124,13 +128,27 @@ input {
   box-shadow: 0 0 0 0.5px #242424;
   transition: all 0.15s ease-in-out;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button_controls {
+  height: 3.5rem;
+}
+
+.quality {
+  width: 25%;
+  margin-right: 1rem;
 }
 
 .button_logout {
   position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  width: 150px;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  height: fit-content;
+  width: fit-content;
+  padding: 0.5rem;
 }
 
 .button_custom:hover {
@@ -151,37 +169,19 @@ input {
   justify-content: center;
 }
 
-.button_medium {
-  margin: 0 1rem;
-}
-
 .container_controls__quality {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-  margin-bottom: 1rem;
 }
 
 .text_error {
   color: #ff0000;
   font-size: 1.5rem;
-  border-radius: 1rem;
+  border-radius: 0.3rem;
   padding: 0.7rem;
-  background-color: rgba(333, 333, 333, 0.7);
+  background-color: rgba(333, 333, 333, 0.8);
   border: 1px solid #ff0000;
-  position: absolute;
-
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-}
-
-.active {
-  background-color: #ffffff;
-  color: #242424;
-  border: 1px solid #242424;
-  box-shadow: 0 0 0 0.5px #242424;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 @media (max-width: 746px) {
@@ -195,10 +195,10 @@ input {
   .user_controls {
     padding-top: 0.5rem;
   }
-  .button_logout {
-    scale: 0.6;
-    left: 0.2rem;
-    bottom: 0.2rem;
+
+  .user_controls {
+    margin-top: 1.5rem;
+    justify-content: start;
   }
 
   .text_error {
@@ -208,4 +208,86 @@ input {
     bottom: 0.2rem;
     right: 0.2rem;
   }
+
+  .button_logout {
+    bottom: 0.5rem;
+    left: 0.5rem;
+  }
+}
+
+@keyframes background-pan {
+  from {
+    background-position: 0% center;
+  }
+
+  to {
+    background-position: -200% center;
+  }
+}
+
+@keyframes scale {
+  from,
+  to {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+body {
+  background-color: rgb(10, 10, 10);
+  display: grid;
+  height: 100vh;
+  margin: 0px;
+  overflow: hidden;
+  place-items: center;
+}
+
+.magic {
+  display: inline-block;
+  position: relative;
+}
+
+.magic > .magic-star {
+  --size: clamp(20px, 1.5vw, 30px);
+
+  animation: scale 700ms ease forwards;
+  display: block;
+  height: var(--size);
+  left: var(--star-left);
+  position: absolute;
+  top: var(--star-top);
+  width: var(--size);
+}
+
+.magic > .magic-star > svg {
+  animation: rotate 1000ms linear infinite;
+  display: block;
+  opacity: 0.7;
+}
+
+.magic > .magic-star > svg > path {
+  fill: var(--blue);
+}
+
+.magic > .magic-text {
+  animation: background-pan 3s linear infinite;
+  background: linear-gradient(to right, var(--dark-blue), var(--blue), var(--light-blue), var(--dark-blue));
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  white-space: nowrap;
+  font-size: 1.5rem;
 }
