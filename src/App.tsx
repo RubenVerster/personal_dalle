@@ -35,7 +35,7 @@ function App() {
   const [error, setError] = useState(false);
 
   const [img, setImg] = useState(Bee);
-  const [imgQuality, setImgQuality] = useState(PixelOptions.small);
+  const [imgQuality, setImgQuality] = useState(PixelOptions.large);
 
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
