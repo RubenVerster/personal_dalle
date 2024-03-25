@@ -25,7 +25,7 @@ function App() {
   const firebaseAuth = getAuth();
 
   const configuration = new Configuration({
-    apiKey: import.meta.env.VITE_Open_AI_key,
+    apiKey: import.meta.env.Open_AI_key,
   });
   const openai = new OpenAIApi(configuration);
 
